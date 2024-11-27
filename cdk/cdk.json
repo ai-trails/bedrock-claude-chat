@@ -69,12 +69,24 @@
       "8000:0000:0000:0000:0000:0000:0000:0000/1"
     ],
     "rdbSchedules": {
-      "stop": {},
-      "start": {}
+      "stop": {
+        "minute": "0",
+        "hour": "3",
+        "day": "2-6",
+        "month": "*",
+        "year": "*"
+      },
+      "start": {
+        "minute": "0",
+        "hour": "18",
+        "day": "1-5",
+        "month": "*",
+        "year": "*"
+      }
     },
     "embeddingContainerVcpu": 2048,
     "embeddingContainerMemory": 4096,
-    "natgatewayCount": 2,
+    "natgatewayCount": 1,
     "useBedrockKnowledgeBaseForRag": false
   }
 }
