@@ -6,7 +6,7 @@ const translation = {
       },
     },
     app: {
-      name: 'Bedrock Chat',
+      name: 'Qikr Chat',
       nameWithoutClaude: 'Qikr AI Chat',
       inputMessage: 'Send a message',
       starredBots: 'Starred Bots',
