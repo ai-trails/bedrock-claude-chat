@@ -170,6 +170,9 @@ def process_chat_input(
     logger.info(f"Received chat input: {chat_input}")
 
     try:
+        # Add debug log before chat call
+        logger.info("Starting chat with parameters: user_id=%s, chat_input=%s", user_id, chat_input)
+
         chat(
             user_id=user_id,
             chat_input=chat_input,
@@ -213,6 +216,7 @@ def process_chat_input(
 
     except Exception as e:
         logger.error(f"Failed to run stream handler: {e}")
+        logger.error("Traceback: %s", traceback.format_exc())
         return {
             "statusCode": 500,
             "body": json.dumps(
