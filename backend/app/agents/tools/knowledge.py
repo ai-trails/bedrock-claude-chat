@@ -80,6 +80,4 @@ def create_knowledge_tool(bot: BotModel, model: type_model_name) -> AgentTool:
         description=description,
         args_schema=KnowledgeToolInput,
         function=search_knowledge,
-        bot=bot,
-        model=model,
     )

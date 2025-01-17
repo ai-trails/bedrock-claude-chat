@@ -69,13 +69,13 @@ class NotificationSender:
                     gatewayapi.exceptions.GoneException,
                     gatewayapi.exceptions.ForbiddenException,
                 ) as e:
-                    logger.error(
+                    logger.exception(
                         f"Shutdown the notification sender due to an exception: {e}"
                     )
                     break
 
                 except Exception as e:
-                    logger.error(f"Failed to send notification: {e}")
+                    logger.exception(f"Failed to send notification: {e}")
 
             elif command["type"] == "finish":
                 break
@@ -273,7 +273,7 @@ def handler(event, context):
                 # Verify JWT token
                 decoded = verify_token(token)
             except Exception as e:
-                logger.error(f"Invalid token: {e}")
+                logger.exception(f"Invalid token: {e}")
                 return {
                     "statusCode": 403,
                     "body": json.dumps(
@@ -360,8 +360,7 @@ def handler(event, context):
             return {"statusCode": 200, "body": "Message part received."}
 
     except Exception as e:
-        logger.error(f"Operation failed: {e}")
-        logger.error("".join(traceback.format_tb(e.__traceback__)))
+        logger.exception(f"Operation failed: {e}")
         return {
             "statusCode": 500,
             "body": json.dumps(
