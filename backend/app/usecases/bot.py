@@ -235,7 +235,7 @@ def create_new_bot(user_id: str, bot_input: BotInput) -> BotOutput:
                 else None
             ),
             active_models=ActiveModelsModel.model_validate(
-                dict(bot_input.active_models)
+                dict(bot_input.active_models) if bot_input.active_models else {}
             ),
         ),
     )
@@ -289,7 +289,9 @@ def create_new_bot(user_id: str, bot_input: BotInput) -> BotOutput:
             if bot_input.bedrock_guardrails
             else None
         ),
-        active_models=ActiveModelsOutput.model_validate(dict(bot_input.active_models)),
+        active_models=ActiveModelsOutput.model_validate(
+            dict(bot_input.active_models) if bot_input.active_models else {}
+        ),
     )
 
 
@@ -423,8 +425,8 @@ def modify_owned_bot(
             if modify_input.bedrock_guardrails
             else None
         ),
-        active_models=ActiveModelsOutput.model_validate(
-            dict(modify_input.active_models)
+        active_models=ActiveModelsModel.model_validate(
+            dict(modify_input.active_models) if modify_input.active_models else {}
         ),
     )
 
@@ -470,7 +472,7 @@ def modify_owned_bot(
             else None
         ),
         active_models=ActiveModelsOutput.model_validate(
-            dict(modify_input.active_models)
+            dict(modify_input.active_models) if modify_input.active_models else {}
         ),
     )
 
@@ -592,7 +594,7 @@ def fetch_all_bots_by_user_id(
                         has_agent=bot.is_agent_enabled(),
                         conversation_quick_starters=bot.conversation_quick_starters,
                         active_models=ActiveModelsModel.model_validate(
-                            dict(bot.active_models)
+                            dict(bot.active_models) if bot.active_models else {}
                         ),
                     ),
                 )
@@ -690,7 +692,9 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                 )
                 for starter in bot.conversation_quick_starters
             ],
-            active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            active_models=ActiveModelsOutput.model_validate(
+                dict(bot.active_models) if bot.active_models else {}
+            ),
         )
 
     except RecordNotFoundError:
@@ -725,7 +729,9 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                     for starter in alias.conversation_quick_starters
                 ]
             ),
-            active_models=ActiveModelsOutput.model_validate(dict(alias.active_models)),
+            active_models=ActiveModelsOutput.model_validate(
+                dict(alias.active_models) if alias.active_models else {}
+            ),
         )
     except RecordNotFoundError:
         pass
@@ -755,8 +761,8 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                     )
                     for starter in bot.conversation_quick_starters
                 ],
-                active_models=ActiveModelsOutput.model_validate(
-                    dict(bot.active_models)
+                active_models=ActiveModelsModel.model_validate(
+                    dict(bot.active_models) if bot.active_models else {}
                 ),
             ),
         )
@@ -779,7 +785,9 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                 )
                 for starter in bot.conversation_quick_starters
             ],
-            active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            active_models=ActiveModelsOutput.model_validate(
+                dict(bot.active_models) if bot.active_models else {}
+            ),
         )
     except RecordNotFoundError:
         raise RecordNotFoundError(
