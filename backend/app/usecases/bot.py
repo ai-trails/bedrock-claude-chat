@@ -628,7 +628,9 @@ def fetch_all_bots(
 
 def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
     try:
+        print('*********************** START find_private_bot_by_id ***********************')
         bot = find_private_bot_by_id(user_id, bot_id)
+        print('*********************** END find_private_bot_by_id ***********************')
         return BotSummaryOutput(
             id=bot_id,
             title=bot.title,
@@ -648,7 +650,9 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                 )
                 for starter in bot.conversation_quick_starters
             ],
-            active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            # Resolve failure for validation error for BotAliasModel
+            # active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            active_models = dict(bot.active_models) if bot.active_models else {}
         )
 
     except RecordNotFoundError:
@@ -658,8 +662,9 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
         alias = find_alias_by_id(user_id, bot_id)
 
         # update bot model activate if alias is found.
+        print('*********************** START find_public_bot_by_id ***********************')
         bot = find_public_bot_by_id(bot_id)
-
+        print('*********************** END find_public_bot_by_id ***********************')
         return BotSummaryOutput(
             id=alias.id,
             title=alias.title,
@@ -683,7 +688,8 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                     for starter in alias.conversation_quick_starters
                 ]
             ),
-            active_models=ActiveModelsOutput.model_validate(dict(alias.active_models)),
+            # active_models=ActiveModelsOutput.model_validate(dict(alias.active_models)),
+            active_models = dict(alias.active_models) if alias.active_models else {}
         )
     except RecordNotFoundError:
         pass
@@ -713,9 +719,8 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                     )
                     for starter in bot.conversation_quick_starters
                 ],
-                active_models=ActiveModelsOutput.model_validate(
-                    dict(bot.active_models)
-                ),
+                # active_models=ActiveModelsOutput.model_validate(dict(alias.active_models)),
+                active_models = dict(bot.active_models) if bot.active_models else {}
             ),
         )
         return BotSummaryOutput(
@@ -737,7 +742,8 @@ def fetch_bot_summary(user_id: str, bot_id: str) -> BotSummaryOutput:
                 )
                 for starter in bot.conversation_quick_starters
             ],
-            active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            # active_models=ActiveModelsOutput.model_validate(dict(bot.active_models)),
+            active_models = dict(bot.active_models) if bot.active_models else {}
         )
     except RecordNotFoundError:
         raise RecordNotFoundError(
